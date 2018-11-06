@@ -109,6 +109,13 @@ public class SettingsGUI extends javax.swing.JFrame {
         sqlURLTextField = new javax.swing.JTextField();
         sqlUsernameTextField = new javax.swing.JTextField();
         sqlPasswordField = new javax.swing.JPasswordField();
+        messagesSettingsPanel = new javax.swing.JPanel();
+        messageSettingsSaveButton = new javax.swing.JButton();
+        messageSettingsCloseButton = new javax.swing.JButton();
+        debugCheckBox = new javax.swing.JCheckBox();
+        messageCheckBox = new javax.swing.JCheckBox();
+        errorCheckBox = new javax.swing.JCheckBox();
+        alertCheckBox = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Settings");
@@ -589,12 +596,67 @@ public class SettingsGUI extends javax.swing.JFrame {
 
         settingsPane.addTab("SQL", jPanel1);
 
+        messageSettingsSaveButton.setText("Save");
+        messageSettingsSaveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                messageSettingsSaveButtonActionPerfomed(evt);
+            }
+        });
+
+        messageSettingsCloseButton.setText("Close");
+        messageSettingsCloseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                messageSettingsCloseButtonActionPerformed(evt);
+            }
+        });
+
+        debugCheckBox.setText("Debug");
+
+        messageCheckBox.setText("Message");
+
+        alertCheckBox.setText("Alert");
+
+        errorCheckBox.setText("Error");
+
+        javax.swing.GroupLayout messageSettingsPanelLayout = new javax.swing.GroupLayout(
+            messagesSettingsPanel);
+                messagesSettingsPanel.setLayout(messageSettingsPanelLayout);
+        messageSettingsPanelLayout.setHorizontalGroup(
+            messageSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                        messageSettingsPanelLayout.createSequentialGroup()
+                                        .addContainerGap(261, Short.MAX_VALUE).addComponent(messageSettingsSaveButton)
+                                        .addGap(8, 8, 8).addComponent(messageSettingsCloseButton).addContainerGap())
+                        .addGroup(messageSettingsPanelLayout.createSequentialGroup().addGap(25, 25, 25)
+                                .addGroup(messageSettingsPanelLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(errorCheckBox).addComponent(alertCheckBox)
+                                        .addComponent(messageCheckBox).addComponent(debugCheckBox))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+                                messageSettingsPanelLayout.setVerticalGroup(messageSettingsPanelLayout
+                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messageSettingsPanelLayout
+                        .createSequentialGroup().addContainerGap().addComponent(debugCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(messageCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(alertCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(errorCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addGroup(messageSettingsPanelLayout
+                                .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(messageSettingsSaveButton).addComponent(messageSettingsCloseButton))
+                        .addContainerGap()));
+
+        settingsPane.addTab("Messages", messagesSettingsPanel);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(settingsPane));
         layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-                settingsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE));
+                settingsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -686,6 +748,14 @@ public class SettingsGUI extends javax.swing.JFrame {
         }
     }// GEN-LAST:event_sendToNetigateCheckBoxStateChanged
 
+    private void messageSettingsSaveButtonActionPerfomed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_SQLFilesSaveButtonActionPerformed
+        saveSettings();
+    }
+
+    private void messageSettingsCloseButtonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_SQLFilesCloseButtonActionPerformed
+        this.dispose();
+    }//
+
     /**
      * @param args the command line arguments
      */
@@ -694,6 +764,38 @@ public class SettingsGUI extends javax.swing.JFrame {
      * java.awt.EventQueue.invokeLater(new Runnable() { public void run() { new
      * SettingsGUI().setVisible(true); } });
      */
+
+    public void setDebug(Boolean status){
+        debugCheckBox.setSelected(status);
+    }
+
+    public Boolean getDebug(){
+        return debugCheckBox.isSelected();
+    }
+
+    public void setError(Boolean status){
+        errorCheckBox.setSelected(status);
+    }
+
+    public Boolean getError(){
+        return errorCheckBox.isSelected();
+    }
+
+    public void setAlert(Boolean status){
+        alertCheckBox.setSelected(status);
+    }
+
+    public Boolean getAlert(){
+        return alertCheckBox.isSelected();
+    }
+
+    public void setMessage(Boolean status){
+        messageCheckBox.setSelected(status);
+    }
+
+    public Boolean getMessage(){
+        return messageCheckBox.isSelected();
+    }
 
     public void setHour(String hour) {
         hourComboBox.setSelectedItem(hour);
@@ -830,6 +932,10 @@ public class SettingsGUI extends javax.swing.JFrame {
             ConfigFile.setSqlURL(sqlURLTextField.getText());
             ConfigFile.setSqlusername(sqlUsernameTextField.getText());
             ConfigFile.setSqlpassword(String.valueOf(sqlPasswordField.getPassword()));
+            ConfigFile.setDebug(debugCheckBox.isSelected());
+            ConfigFile.setError(errorCheckBox.isSelected());
+            ConfigFile.setMessage(messageCheckBox.isSelected());
+            ConfigFile.setAlert(alertCheckBox.isSelected());
 
             ConfigFile.writeConfig();
         } catch (AddressException ex) {
@@ -880,6 +986,13 @@ public class SettingsGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel messagesSettingsPanel;
+    private javax.swing.JButton messageSettingsSaveButton;
+    private javax.swing.JButton messageSettingsCloseButton;
+    private javax.swing.JCheckBox debugCheckBox;
+    private javax.swing.JCheckBox alertCheckBox;
+    private javax.swing.JCheckBox messageCheckBox;
+    private javax.swing.JCheckBox errorCheckBox;
     private javax.swing.JComboBox<String> minuteComboBox;
     private javax.swing.JButton netigateSettingsCloseButton;
     private javax.swing.JPanel netigateSettingsPanel;

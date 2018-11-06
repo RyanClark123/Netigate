@@ -9,7 +9,8 @@ public class GenericEmailTest{
     
     @Before
     public void setUp(){
-        RemoveEmails.init();
+        ConfigFile.setMessage(false);
+        RemoveEmails.init();        
     }
 
     @Test

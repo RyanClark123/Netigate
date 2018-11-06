@@ -32,10 +32,14 @@ public class ArchiveFiles {
             ErrorLogger.closeWriter();
             Files.move(Paths.get(ConfigFile.getFileLocation() + "\\Logs\\" + date + ".txt"),
                     Paths.get(ConfigFile.getFileLocation() + "\\Logs\\Archive\\" + date + ".txt"));
-            ErrorLogger.writeError("File " + ConfigFile.getFileLocation() + "\\Logs\\" + date + ".txt archived",
-                    ErrorLogger.MESSAGE);
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError("File " + ConfigFile.getFileLocation() + "\\Logs\\" + date + ".txt archived",
+                        ErrorLogger.MESSAGE);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -43,11 +47,15 @@ public class ArchiveFiles {
         try {
             Files.move(Paths.get(ConfigFile.getFileLocation() + "\\JSON\\Customer " + date + ".json"),
                     Paths.get(ConfigFile.getFileLocation() + "\\JSON\\Archive\\Customer " + date + ".json"));
-            ErrorLogger.writeError(
-                    "File " + ConfigFile.getFileLocation() + "\\JSON\\Customer " + date + ".json archived",
-                    ErrorLogger.MESSAGE);
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError(
+                        "File " + ConfigFile.getFileLocation() + "\\JSON\\Customer " + date + ".json archived",
+                        ErrorLogger.MESSAGE);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -55,10 +63,15 @@ public class ArchiveFiles {
         try {
             Files.move(Paths.get(ConfigFile.getFileLocation() + "\\CSV\\Customer " + date + ".csv"),
                     Paths.get(ConfigFile.getFileLocation() + "\\CSV\\Archive\\Customer " + date + ".csv"));
-            ErrorLogger.writeError("File " + ConfigFile.getFileLocation() + "\\CSV\\Customer " + date + ".csv archived",
-                    ErrorLogger.MESSAGE);
+            if (ConfigFile.message) {
+                ErrorLogger.writeError(
+                        "File " + ConfigFile.getFileLocation() + "\\CSV\\Customer " + date + ".csv archived",
+                        ErrorLogger.MESSAGE);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -66,10 +79,14 @@ public class ArchiveFiles {
         try {
             Files.move(Paths.get(ConfigFile.getFileLocation() + "\\Incoming\\" + FileName),
                     Paths.get(ConfigFile.getFileLocation() + "\\Incoming\\Archive\\" + FileName));
-            ErrorLogger.writeError("File " + ConfigFile.getFileLocation() + "\\Incoming\\" + FileName + " archived",
-                    ErrorLogger.MESSAGE);
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError("File " + ConfigFile.getFileLocation() + "\\Incoming\\" + FileName + " archived",
+                        ErrorLogger.MESSAGE);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 }

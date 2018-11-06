@@ -16,8 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static com.parkerbs.Netigate.FileWatcher.calendar;
 import static com.parkerbs.Netigate.NetigateGUI.addedCustomers;
 import org.json.simple.JSONObject;
@@ -66,13 +64,17 @@ public class SendToNetigate implements Runnable {
             }
 
         } catch (MalformedURLException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         } catch (FileNotFoundException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
-            Logger.getLogger(SendToNetigate.class.getName()).log(Level.SEVERE, null, ex);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
-            Logger.getLogger(SendToNetigate.class.getName()).log(Level.SEVERE, null, ex);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
 
     }
@@ -87,7 +89,9 @@ public class SendToNetigate implements Runnable {
             }
 
         } catch (MalformedURLException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -96,7 +100,9 @@ public class SendToNetigate implements Runnable {
             url = new URL("https://www.netigate.se/api/v1.1/surveys/" + ConfigFile.getSurveyNumber() + "/sendouts/"
                     + sendoutID + "/activate");
         } catch (MalformedURLException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -123,14 +129,14 @@ public class SendToNetigate implements Runnable {
 
             connectionObject.disconnect();
         } catch (IOException | ParseException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
-
     }
 
     public void getSendoutId() {
         response = (JSONObject) response.get("CreateSendoutResult");
         sendoutID = (long) response.get("SendoutId");
     }
-
 }

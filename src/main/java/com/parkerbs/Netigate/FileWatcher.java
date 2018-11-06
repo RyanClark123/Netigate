@@ -36,7 +36,9 @@ public class FileWatcher implements Runnable {
             watcher = myDir.getFileSystem().newWatchService();
             myDir.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
 
         while (true) {
@@ -48,8 +50,10 @@ public class FileWatcher implements Runnable {
                         archiver = new ArchiveFiles();
                         ErrorLogger.init();
                         calendar = Calendar.getInstance();
-                        ErrorLogger.writeError("New file " + event.context().toString() + " receieved!",
-                                ErrorLogger.MESSAGE);
+                        if (ConfigFile.getMessage()) {
+                            ErrorLogger.writeError("New file " + event.context().toString() + " receieved!",
+                                    ErrorLogger.MESSAGE);
+                        }
 
                         incomingFile = event.context().toString();
                         Thread.sleep(4000);
@@ -86,7 +90,9 @@ public class FileWatcher implements Runnable {
                 }
                 watchKey.reset();
             } catch (InterruptedException ex) {
-                ErrorLogger.writeError(ex, ErrorLogger.MESSAGE);
+                if (ConfigFile.getError()) {
+                    ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                }
             }
         }
     }

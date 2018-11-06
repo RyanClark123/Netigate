@@ -23,7 +23,39 @@ public class ConfigFile {
     static File configFile;
     static int numberOfBranches, surveyNumber, customersPerBranch;
     static Boolean createCSV, createJSON, archiveCSV, archiveJSON, archiveIncoming, archiveLogs, sendEmail,
-            sendToNetigate, activateSurvey;
+            sendToNetigate, activateSurvey, debug, alert, message, error;
+
+    public static void setDebug(Boolean debug) {
+        ConfigFile.debug = debug;
+    }
+
+    public static Boolean getDebug() {
+        return debug;
+    }
+
+    public static void setError(Boolean error) {
+        ConfigFile.error = error;
+    }
+
+    public static Boolean getError() {
+        return error;
+    }
+
+    public static void setAlert(Boolean alert) {
+        ConfigFile.alert = alert;
+    }
+
+    public static Boolean getAlert() {
+        return alert;
+    }
+
+    public static void setMessage(Boolean message) {
+        ConfigFile.message = message;
+    }
+
+    public static Boolean getMessage() {
+        return message;
+    }
 
     public static String getHour() {
         return hour;
@@ -248,11 +280,21 @@ public class ConfigFile {
             configWriter.write("SQLUsername: " + sqlusername);
             configWriter.newLine();
             configWriter.write("SQLPassword: " + sqlpassword);
+            configWriter.newLine();
+            configWriter.write("Debug: " + debug);
+            configWriter.newLine();
+            configWriter.write("Error: " + error);
+            configWriter.newLine();
+            configWriter.write("Message: " + message);
+            configWriter.newLine();
+            configWriter.write("Alert: " + alert);
 
             configWriter.flush();
             configWriter.close();
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -332,13 +374,22 @@ public class ConfigFile {
                 case "SQLPassword":
                     sqlpassword = configArray[1].trim();
                     break;
+                case "Debug":
+                    debug = Boolean.parseBoolean(configArray[1].trim());
+                case "Error":
+                    error = Boolean.parseBoolean(configArray[1].trim());
+                case "Alert":
+                    alert = Boolean.parseBoolean(configArray[1].trim());
+                case "Message":
+                    message = Boolean.parseBoolean(configArray[1].trim());
                 default:
                     break;
-
                 }
             }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 }

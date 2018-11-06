@@ -78,11 +78,17 @@ public class DatabaseUpdater implements Runnable {
                     break;
                 }
             }
-            ErrorLogger.writeError(customerCount + " customers loaded from spreadsheet", ErrorLogger.MESSAGE);
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError(customerCount + " customers loaded from spreadsheet", ErrorLogger.MESSAGE);
+            }
         } catch (FileNotFoundException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
@@ -131,16 +137,22 @@ public class DatabaseUpdater implements Runnable {
                                             .get(randomCollectedCustomerNumber)[BRANCH],
                                     branchList.get(branchNumber).get(COLLECTED)
                                             .get(randomCollectedCustomerNumber)[DELIVERYMETHOD]));
-                            ErrorLogger.writeError(
-                                    "Customer " + branchList.get(branchNumber).get(COLLECTED)
-                                            .get(randomCollectedCustomerNumber)[ACCOUNT_NUMBER] + " added",
-                                    ErrorLogger.MESSAGE);
+                            if (ConfigFile.getMessage()) {
+                                ErrorLogger.writeError(
+                                        "Customer " + branchList.get(branchNumber).get(COLLECTED)
+                                                .get(randomCollectedCustomerNumber)[ACCOUNT_NUMBER] + " added",
+                                        ErrorLogger.MESSAGE);
+                            }
                         } catch (SQLException ex) {
                             if (ex.getErrorCode() == 1062) {
                                 duplicateCustomerCount++;
-                                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                if (ConfigFile.getError()) {
+                                    ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                }
                             } else {
-                                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                if (ConfigFile.getError()) {
+                                    ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                }
                             }
                         }
 
@@ -170,16 +182,22 @@ public class DatabaseUpdater implements Runnable {
                                             .get(randomDeliveredCustomerNumber)[BRANCH],
                                     branchList.get(branchNumber).get(DELIVERED)
                                             .get(randomDeliveredCustomerNumber)[DELIVERYMETHOD]));
-                            ErrorLogger.writeError(
-                                    "Customer " + branchList.get(branchNumber).get(DELIVERED)
-                                            .get(randomDeliveredCustomerNumber)[ACCOUNT_NUMBER] + " added",
-                                    ErrorLogger.MESSAGE);
+                            if (ConfigFile.getMessage()) {
+                                ErrorLogger.writeError(
+                                        "Customer " + branchList.get(branchNumber).get(DELIVERED)
+                                                .get(randomDeliveredCustomerNumber)[ACCOUNT_NUMBER] + " added",
+                                        ErrorLogger.MESSAGE);
+                            }
                         } catch (SQLException ex) {
                             if (ex.getErrorCode() == 1062) {
                                 duplicateCustomerCount++;
-                                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                if (ConfigFile.getError()) {
+                                    ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                }
                             } else {
-                                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                if (ConfigFile.getError()) {
+                                    ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+                                }
                             }
                         }
 
@@ -188,7 +206,9 @@ public class DatabaseUpdater implements Runnable {
             }
             connectionObject.close();
         } catch (SQLException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 }

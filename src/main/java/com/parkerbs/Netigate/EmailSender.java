@@ -71,7 +71,9 @@ public class EmailSender {
             message.setContent(multipart);
             Transport.send(message);
         } catch (MessagingException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 

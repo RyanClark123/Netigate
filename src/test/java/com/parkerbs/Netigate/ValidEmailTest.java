@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NonGenericEmailTest {
-    
+public class ValidEmailTest {
+
     @Before
     public void setUp(){
         ConfigFile.setMessage(false);
@@ -14,9 +14,8 @@ public class NonGenericEmailTest {
     }
 
     @Test
-    public void TestNonGenericEmail(){
-        assertEquals(true, RemoveEmails.checkEmail("ryan.clark@gmail.com"));
+    public void runTest(){
+        assertEquals(true, RemoveEmails.checkEmail("test@gmail.com"));
     }
-
 
 }

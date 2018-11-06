@@ -12,6 +12,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 /**
  *
  * @author Ryan
@@ -27,18 +30,34 @@ public class RemoveEmails {
     }
 
     public static void loadEmails() {
-        try (Stream<String> stream = Files.lines(Paths.get("C:\\Users\\ryan.clark\\OneDrive - Parker Building Supplies Limited\\Documents\\IT\\Java\\email_lookup.csv"))){
+        try (Stream<String> stream = Files.lines(Paths.get(
+                "C:\\Users\\ryan.clark\\OneDrive - Parker Building Supplies Limited\\Documents\\IT\\Java\\email_lookup.csv"))) {
             stream.forEach(email -> emails.add(email));
-            
-            //ErrorLogger.writeError("Emails to remove loaded", ErrorLogger.MESSAGE);
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError("Emails to remove loaded", ErrorLogger.MESSAGE);
+            }
         } catch (FileNotFoundException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
     public static Boolean checkEmail(String email) {
+
+        try {
+            InternetAddress emailToCheck = new InternetAddress(email);
+            emailToCheck.validate();
+        } catch (AddressException ex) {
+            if(ConfigFile.getMessage()){
+                ErrorLogger.writeError("Invalid email address", ErrorLogger.MESSAGE);
+            }
+            return false;
+        }
 
         for (String emailToRemove : emails) {
             if ((email.toLowerCase().startsWith(emailToRemove))) {

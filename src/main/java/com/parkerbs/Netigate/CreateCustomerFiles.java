@@ -31,7 +31,9 @@ public class CreateCustomerFiles implements Runnable {
             if (ConfigFile.getSendEmail()) {
                 EmailSender.sendEmail(ConfigFile.getFileLocation() + "\\CSV\\Customer "
                         + dateFormat.format(FileWatcher.calendar.getTime()) + ".csv");
-                ErrorLogger.writeError("Email sent", ErrorLogger.MESSAGE);
+                if (ConfigFile.getMessage()) {
+                    ErrorLogger.writeError("Email sent", ErrorLogger.MESSAGE);
+                }
             }
         }
 
@@ -41,9 +43,9 @@ public class CreateCustomerFiles implements Runnable {
     }
 
     public void createCSV() {
-        try(BufferedWriter csvWriter = new BufferedWriter(new FileWriter(ConfigFile.getFileLocation() + "\\CSV\\Customer "
-        + dateFormat.format(FileWatcher.calendar.getTime()) + ".csv"))){            
-            
+        try (BufferedWriter csvWriter = new BufferedWriter(new FileWriter(ConfigFile.getFileLocation()
+                + "\\CSV\\Customer " + dateFormat.format(FileWatcher.calendar.getTime()) + ".csv"))) {
+
             csvWriter.write("Email\n");
 
             for (Customer customer : NetigateGUI.addedCustomers) {
@@ -53,31 +55,35 @@ public class CreateCustomerFiles implements Runnable {
                 csvWriter.write(customer.getCategory() + "\n");
             }
 
-            ErrorLogger.writeError("New CSV file created", ErrorLogger.MESSAGE);
-
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError("New CSV file created", ErrorLogger.MESSAGE);
+            }
             csvWriter.flush();
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
-
     }
 
     @SuppressWarnings("unchecked")
     public void createJSON() {
-        try (FileWriter JSONfile = new FileWriter(
-                ConfigFile.getFileLocation() + "\\JSON\\Customer " + dateFormat.format(FileWatcher.calendar.getTime()) + ".json")) {
+        try (FileWriter JSONfile = new FileWriter(ConfigFile.getFileLocation() + "\\JSON\\Customer "
+                + dateFormat.format(FileWatcher.calendar.getTime()) + ".json")) {
             for (Customer customer : NetigateGUI.addedCustomers) {
                 json.put("backgroundData", new JSONArray());
                 json.put("sendMail", true);
                 json.put("contactDetails", customer.getEmail());
                 JSONfile.write(json.toJSONString());
             }
-
-            ErrorLogger.writeError("New JSON file created", ErrorLogger.MESSAGE);
-
+            if (ConfigFile.getMessage()) {
+                ErrorLogger.writeError("New JSON file created", ErrorLogger.MESSAGE);
+            }
             JSONfile.flush();
         } catch (IOException ex) {
-            ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            if (ConfigFile.getError()) {
+                ErrorLogger.writeError(ex, ErrorLogger.ERROR);
+            }
         }
     }
 
