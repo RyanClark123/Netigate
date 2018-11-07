@@ -25,10 +25,11 @@ import javax.swing.JTextArea;
  * 
  * <h3>Initialising <code>ErrorLogger</code></h3>
  * <p>
- * Before using the <code>ErrorLogger</code> you must itialise it there are
- * several {@link #init() init methods} such as <code>init()</code> and
- * <code>init(SimpleDateFormat dateFormat)</code>, if you do not specify a
- * <code>SimpleDateFormat</code> the default one of <blockquote>
+ * Before using the <code>ErrorLogger</code> you must create an instance of it,
+ * this is imply used to initialise a few fields. This is done using a
+ * {@link #Builder() builder}. There are two optional parameters, a
+ * <code>SimpleDateFormat</code> or a <code>JTextArea</code> if you do not
+ * specify a <code>SimpleDateFormat</code> the default one of <blockquote>
  * 
  * <pre>
  * ErrorLogger.dateFormat = new SimpleDateFormat("dd-MM-yyyy hh-mm");
@@ -36,12 +37,7 @@ import javax.swing.JTextArea;
  * 
  * </blockquote> will be used, you can specify a simple date format at a later
  * date using {@link #setNewDateFormat(SimpleDateFormat)
- * setNewSimpleDateFormat(SimpleDateFormat)} all of the methods are
- * <code>static</code> so you canot create an instance of
- * <code>ErrorLogger</code>
- * <p>
- * when the <code>ErrorLogger init()</code> method is called a new error file is
- * created at a default location or a specified location.
+ * setNewSimpleDateFormat(SimpleDateFormat)}.
  * 
  * <h4>Writing an error</h4>
  * <p>
@@ -55,9 +51,10 @@ import javax.swing.JTextArea;
  * @author Ryan
  * @version 1.0
  * @since 05/11/2018
- * @param init              initialises the errorlogger, can pass in nothing, a
- *                          file location, a <code>JTextArea</code> or
- *                          <code>SimpleDateFormat</code>
+ * @param ErrorLogger       initialises the errorlogger, this is done via a
+ *                          builder, you can pass in a <code>JTextArea</code> or
+ *                          <code>SimpleDateFormat</code> or nothing
+ * @param CreateNewLogFile  Creates a new log file
  * @param writeError        writes an error the log file, can pass in a String
  *                          or Exception and a message type
  * @param writeLogTextError writes an error to the <code>JTextArea</code> if one
@@ -76,74 +73,36 @@ public class ErrorLogger {
     public static final String ALERT = "ALERT";
     public static final String ERROR = "ERROR";
     private static JTextArea textArea = null;
-    private static Boolean logToTextArea = false;
     private static SimpleDateFormat dateFormat;
+    private static Boolean logToTextArea = false;
 
-    /**
-     * Initialises the error logger with no parameters, sets the default
-     * <code>SimpleDateFormat</code> and file location
-     * 
-     */
-    public static void init() {
-        try {
-            ErrorLogger.dateFormat = new SimpleDateFormat("dd-MM-yyyy hh-mm");
-            Date date = new Date();
-            String file = ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt";
-            errorFileWriter = new BufferedWriter(new FileWriter(file));
-            errorFileWriter
-                    .write(dateFormat.format(new Timestamp(System.currentTimeMillis())) + " MESSAGE: New log file "
-                            + ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt created");
-            errorFileWriter.newLine();
-            errorFileWriter.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ErrorLogger.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    private ErrorLogger(Builder builder) {
+        textArea = builder.textArea;
+        dateFormat = builder.dateFormat;
 
-    /**
-     * Initialises the error logger with a <code>SimpleDtaeFormat</code> that is
-     * passed in, sets the default file location
-     * 
-     * @param dateFormat The date format to use
-     */
-    public static void init(SimpleDateFormat dateFormat) {
-        try {
-            ErrorLogger.dateFormat = dateFormat;
-            Date date = new Date();
-            String file = ConfigFile.getFileLocation() + "\\Logs\\" + ErrorLogger.dateFormat.format(date) + ".txt";
-            errorFileWriter = new BufferedWriter(new FileWriter(file));
-            errorFileWriter.write(dateFormat.format(new Timestamp(System.currentTimeMillis()))
-                    + " MESSAGE: New log file " + ConfigFile.getFileLocation() + "\\Logs\\"
-                    + ErrorLogger.dateFormat.format(date) + ".txt created");
-            errorFileWriter.newLine();
-            errorFileWriter.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ErrorLogger.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    /**
-     * Initialises the error logger with a JTextArea, sets the default
-     * SimpleDateFormat and file location. Sets the logging on the
-     * {@link #logToTextArea text area} to true
-     * 
-     * @param textArea Is the JTextArea to use when logging errors
-     */
-    public static void init(JTextArea textArea) {
-        try {
-            ErrorLogger.dateFormat = new SimpleDateFormat("dd-MM-yyyy hh-mm");
-            Date date = new Date();
-            String file = ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt";
-            errorFileWriter = new BufferedWriter(new FileWriter(file));
-            errorFileWriter
-                    .write(dateFormat.format(new Timestamp(System.currentTimeMillis())) + " MESSAGE: New log file "
-                            + ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt created");
-            errorFileWriter.newLine();
-            errorFileWriter.flush();
-            ErrorLogger.textArea = textArea;
+        if (!(textArea == null)) {
             logToTextArea = true;
-            textArea.append(dateFormat.format(new Timestamp(System.currentTimeMillis())) + " MESSAGE: New log file "
-                    + ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt created\n");
+        }
+    }
+
+    /**
+     * Creates a new log file based on the file location in the config file
+     */
+    public static void CreateNewLogFile() {
+        Date date = new Date();
+        String file = ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt";
+
+        try {
+            errorFileWriter = new BufferedWriter(new FileWriter(file));
+            errorFileWriter
+                    .write(dateFormat.format(new Timestamp(System.currentTimeMillis())) + " MESSAGE: New log file "
+                            + ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt created");
+            errorFileWriter.newLine();
+            errorFileWriter.flush();
+            if (logToTextArea) {
+                textArea.append(dateFormat.format(new Timestamp(System.currentTimeMillis())) + " MESSAGE: New log file "
+                        + ConfigFile.getFileLocation() + "\\Logs\\" + dateFormat.format(date) + ".txt created\n");
+            }
         } catch (IOException ex) {
             Logger.getLogger(ErrorLogger.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -278,6 +237,29 @@ public class ErrorLogger {
             errorFileWriter.close();
         } catch (IOException ex) {
             Logger.getLogger(ErrorLogger.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static class Builder {
+        private JTextArea textArea = null;
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh-mm");
+
+        public Builder() {
+
+        }
+
+        public Builder textArea(JTextArea textArea) {
+            this.textArea = textArea;
+            return this;
+        }
+
+        public Builder dateFormat(SimpleDateFormat dateFormat) {
+            this.dateFormat = dateFormat;
+            return this;
+        }
+
+        public ErrorLogger build() {
+            return new ErrorLogger(this);
         }
     }
 

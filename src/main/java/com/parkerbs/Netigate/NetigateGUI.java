@@ -252,7 +252,7 @@ public class NetigateGUI extends javax.swing.JFrame {
         }
         ConfigFile.getConfig();
         checkFolders();
-
+        new ErrorLogger.Builder().textArea(logTextArea).build();
         Thread thread = new Thread(new FileWatcher());
         thread.start();
 

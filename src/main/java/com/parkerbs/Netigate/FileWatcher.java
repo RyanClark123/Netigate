@@ -47,14 +47,13 @@ public class FileWatcher implements Runnable {
                 List<WatchEvent<?>> events = watchKey.pollEvents();
                 for (WatchEvent<?> event : events) {
                     if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
+                        ErrorLogger.CreateNewLogFile();
                         archiver = new ArchiveFiles();
-                        ErrorLogger.init();
                         calendar = Calendar.getInstance();
                         if (ConfigFile.getMessage()) {
                             ErrorLogger.writeError("New file " + event.context().toString() + " receieved!",
                                     ErrorLogger.MESSAGE);
                         }
-
                         incomingFile = event.context().toString();
                         Thread.sleep(4000);
                         Thread databaseUpdaterThread = new Thread(new DatabaseUpdater(
