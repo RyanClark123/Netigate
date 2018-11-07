@@ -175,6 +175,7 @@ public class NetigateGUI extends javax.swing.JFrame {
                 settingsGUI.setSQLURL(ConfigFile.getSqlURL());
                 settingsGUI.setSQLUsername(ConfigFile.getSqlusername());
                 settingsGUI.setSQLPassword(ConfigFile.getSqlpassword());
+                settingsGUI.setSQLUpdate(ConfigFile.getSQLUpdate());
                 settingsGUI.setDebug(ConfigFile.getDebug());
                 settingsGUI.setError(ConfigFile.getError());
                 settingsGUI.setAlert(ConfigFile.getAlert());

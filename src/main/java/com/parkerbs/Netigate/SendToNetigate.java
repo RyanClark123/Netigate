@@ -49,7 +49,7 @@ public class SendToNetigate implements Runnable {
     public void createSendout() {
 
         try (BufferedReader messageReader = new BufferedReader(new FileReader(
-                "C:\\Users\\ryan.clark\\OneDrive - Parker Building Supplies Limited\\Documents\\IT\\Java\\HTML.txt"))) {
+                "C:\\Working\\HTML.txt"))) {
             dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             date = dateFormat.format(calendar.getTime());
             time = "T" + ConfigFile.getHour() + ":" + ConfigFile.getMinute() + ":00Z";

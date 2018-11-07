@@ -23,7 +23,15 @@ public class ConfigFile {
     static File configFile;
     static int numberOfBranches, surveyNumber, customersPerBranch;
     static Boolean createCSV, createJSON, archiveCSV, archiveJSON, archiveIncoming, archiveLogs, sendEmail,
-            sendToNetigate, activateSurvey, debug, alert, message, error;
+            sendToNetigate, activateSurvey, debug, alert, message, error, sqlupdate;
+
+    public static void setSQLUpdate(Boolean sqlUpdate){
+        ConfigFile.sqlupdate = sqlUpdate;
+    }
+
+    public static Boolean getSQLUpdate(){
+        return sqlupdate;
+    }
 
     public static void setDebug(Boolean debug) {
         ConfigFile.debug = debug;
@@ -281,6 +289,8 @@ public class ConfigFile {
             configWriter.newLine();
             configWriter.write("SQLPassword: " + sqlpassword);
             configWriter.newLine();
+            configWriter.write("SQLUpdate: " + sqlupdate);
+            configWriter.newLine();
             configWriter.write("Debug: " + debug);
             configWriter.newLine();
             configWriter.write("Error: " + error);
@@ -374,6 +384,8 @@ public class ConfigFile {
                 case "SQLPassword":
                     sqlpassword = configArray[1].trim();
                     break;
+                case "SQLUpdate":
+                    sqlupdate = Boolean.parseBoolean(configArray[1].trim());
                 case "Debug":
                     debug = Boolean.parseBoolean(configArray[1].trim());
                 case "Error":

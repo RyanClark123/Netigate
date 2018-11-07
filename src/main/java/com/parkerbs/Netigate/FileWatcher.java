@@ -56,10 +56,12 @@ public class FileWatcher implements Runnable {
                         }
                         incomingFile = event.context().toString();
                         Thread.sleep(4000);
-                        Thread databaseUpdaterThread = new Thread(new DatabaseUpdater(
-                                new File(ConfigFile.getFileLocation() + "\\Incoming\\" + event.context().toString())));
-                        databaseUpdaterThread.start();
-                        databaseUpdaterThread.join();
+                        if (ConfigFile.getSQLUpdate()) {
+                            Thread databaseUpdaterThread = new Thread(new DatabaseUpdater(new File(
+                                    ConfigFile.getFileLocation() + "\\Incoming\\" + event.context().toString())));
+                            databaseUpdaterThread.start();
+                            databaseUpdaterThread.join();
+                        }
 
                         Thread customerFileCreator = new Thread(new CreateCustomerFiles());
                         customerFileCreator.start();

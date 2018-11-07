@@ -109,6 +109,7 @@ public class SettingsGUI extends javax.swing.JFrame {
         sqlURLTextField = new javax.swing.JTextField();
         sqlUsernameTextField = new javax.swing.JTextField();
         sqlPasswordField = new javax.swing.JPasswordField();
+        sqlUpdateCheckBox = new javax.swing.JCheckBox();
         messagesSettingsPanel = new javax.swing.JPanel();
         messageSettingsSaveButton = new javax.swing.JButton();
         messageSettingsCloseButton = new javax.swing.JButton();
@@ -119,9 +120,7 @@ public class SettingsGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Settings");
-        setIconImage(new ImageIcon(
-                "C:\\Users\\ryan.clark\\OneDrive - Parker Building Supplies Limited\\Documents\\IT\\Java\\Parker BS.jpg")
-                        .getImage());
+        setIconImage(new ImageIcon("C:\\Users\\ryan.clark\\OneDrive - Parker Building Supplies Limited\\Documents\\IT\\Java\\Parker BS.jpg").getImage());
 
         settingsPane.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
@@ -552,6 +551,8 @@ public class SettingsGUI extends javax.swing.JFrame {
 
         jLabel10.setText("Password");
 
+        sqlUpdateCheckBox.setText("Update Database");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -561,17 +562,20 @@ public class SettingsGUI extends javax.swing.JFrame {
                                 .addComponent(SQLFilesSaveButton).addGap(8, 8, 8).addComponent(SQLFilesCloseButton)
                                 .addContainerGap())
                 .addGroup(jPanel1Layout.createSequentialGroup().addGap(22, 22, 22).addGroup(jPanel1Layout
-                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel1Layout.createSequentialGroup().addComponent(jLabel8).addGap(40, 40, 40)
-                                .addComponent(sqlURLTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 275,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel9).addComponent(jLabel10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(sqlPasswordField).addComponent(sqlUsernameTextField))))
-                        .addContainerGap(35, Short.MAX_VALUE)));
+                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addComponent(sqlUpdateCheckBox)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup().addComponent(jLabel8).addGap(40, 40, 40)
+                                        .addComponent(sqlURLTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 275,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel9).addComponent(jLabel10))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel1Layout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(sqlPasswordField).addComponent(sqlUsernameTextField)))))
+                        .addContainerGap(65, Short.MAX_VALUE)));
         jPanel1Layout.setVerticalGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -589,7 +593,9 @@ public class SettingsGUI extends javax.swing.JFrame {
                                 .addComponent(jLabel10).addComponent(sqlPasswordField,
                                         javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
                                         javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(sqlUpdateCheckBox)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(SQLFilesSaveButton).addComponent(SQLFilesCloseButton))
                         .addContainerGap()));
@@ -618,25 +624,24 @@ public class SettingsGUI extends javax.swing.JFrame {
 
         errorCheckBox.setText("Error");
 
-        javax.swing.GroupLayout messageSettingsPanelLayout = new javax.swing.GroupLayout(
-            messagesSettingsPanel);
-                messagesSettingsPanel.setLayout(messageSettingsPanelLayout);
+        javax.swing.GroupLayout messageSettingsPanelLayout = new javax.swing.GroupLayout(messagesSettingsPanel);
+        messagesSettingsPanel.setLayout(messageSettingsPanelLayout);
         messageSettingsPanelLayout.setHorizontalGroup(
-            messageSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                messageSettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
-                        messageSettingsPanelLayout.createSequentialGroup()
-                                        .addContainerGap(261, Short.MAX_VALUE).addComponent(messageSettingsSaveButton)
-                                        .addGap(8, 8, 8).addComponent(messageSettingsCloseButton).addContainerGap())
+                                messageSettingsPanelLayout.createSequentialGroup().addContainerGap(261, Short.MAX_VALUE)
+                                        .addComponent(messageSettingsSaveButton).addGap(8, 8, 8)
+                                        .addComponent(messageSettingsCloseButton).addContainerGap())
                         .addGroup(messageSettingsPanelLayout.createSequentialGroup().addGap(25, 25, 25)
                                 .addGroup(messageSettingsPanelLayout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(errorCheckBox).addComponent(alertCheckBox)
                                         .addComponent(messageCheckBox).addComponent(debugCheckBox))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-                                messageSettingsPanelLayout.setVerticalGroup(messageSettingsPanelLayout
+        messageSettingsPanelLayout.setVerticalGroup(messageSettingsPanelLayout
                 .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messageSettingsPanelLayout
-                        .createSequentialGroup().addContainerGap().addComponent(debugCheckBox)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, messageSettingsPanelLayout.createSequentialGroup()
+                        .addContainerGap().addComponent(debugCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(messageCheckBox)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -765,35 +770,43 @@ public class SettingsGUI extends javax.swing.JFrame {
      * SettingsGUI().setVisible(true); } });
      */
 
-    public void setDebug(Boolean status){
+    public void setSQLUpdate(Boolean status) {
+        sqlUpdateCheckBox.setSelected(status);
+    }
+
+    public Boolean getSQLUpdate() {
+        return sqlUpdateCheckBox.isSelected();
+    }
+
+    public void setDebug(Boolean status) {
         debugCheckBox.setSelected(status);
     }
 
-    public Boolean getDebug(){
+    public Boolean getDebug() {
         return debugCheckBox.isSelected();
     }
 
-    public void setError(Boolean status){
+    public void setError(Boolean status) {
         errorCheckBox.setSelected(status);
     }
 
-    public Boolean getError(){
+    public Boolean getError() {
         return errorCheckBox.isSelected();
     }
 
-    public void setAlert(Boolean status){
+    public void setAlert(Boolean status) {
         alertCheckBox.setSelected(status);
     }
 
-    public Boolean getAlert(){
+    public Boolean getAlert() {
         return alertCheckBox.isSelected();
     }
 
-    public void setMessage(Boolean status){
+    public void setMessage(Boolean status) {
         messageCheckBox.setSelected(status);
     }
 
-    public Boolean getMessage(){
+    public Boolean getMessage() {
         return messageCheckBox.isSelected();
     }
 
@@ -932,6 +945,7 @@ public class SettingsGUI extends javax.swing.JFrame {
             ConfigFile.setSqlURL(sqlURLTextField.getText());
             ConfigFile.setSqlusername(sqlUsernameTextField.getText());
             ConfigFile.setSqlpassword(String.valueOf(sqlPasswordField.getPassword()));
+            ConfigFile.setSQLUpdate(sqlUpdateCheckBox.isSelected());
             ConfigFile.setDebug(debugCheckBox.isSelected());
             ConfigFile.setError(errorCheckBox.isSelected());
             ConfigFile.setMessage(messageCheckBox.isSelected());
@@ -993,6 +1007,7 @@ public class SettingsGUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox alertCheckBox;
     private javax.swing.JCheckBox messageCheckBox;
     private javax.swing.JCheckBox errorCheckBox;
+    private javax.swing.JCheckBox sqlUpdateCheckBox;
     private javax.swing.JComboBox<String> minuteComboBox;
     private javax.swing.JButton netigateSettingsCloseButton;
     private javax.swing.JPanel netigateSettingsPanel;
